@@ -1,0 +1,39 @@
+#!/usr/bin/env node
+
+var sleep         = require("sleep");
+var child_process = require("child_process");
+
+// This is three because we are using env
+if (process.argv.length != 3) {
+    printHelp();
+    return;
+}
+
+function printHelp() {
+    console.log("Use: wakeme <timeinterval> [&]");
+    console.log("Where timeinterval can be +1 (in 1 minute) or 1244 (at 12:44 hs)");
+}
+
+function notifyMe(minutes) {
+    var plural = minutes > 1 ? "s have" : " has";
+    child_process.execSync("aplay $HOME/bin/beep-8.wav >/dev/null 2>&1");
+    child_process.execSync(`notify-send "Wake up, buddy!" "${minutes} minute${plural} passed"`);
+}
+
+var interval = process.argv[2];
+
+if (interval.indexOf("+") === -1) {
+    console.log("THIS PROGRAM DOES NOT SUPPORT ABSOLUTE TIMES YET");
+    return;
+}
+
+var minutes = interval.replace("+", "");
+
+var expectedTime = Date.now() + minutes * 60 * 1000;
+
+while (Date.now() < expectedTime) {
+    // Sleeping 10 seconds... we don't need EXACT time
+    sleep.sleep(10);
+}
+
+notifyMe(minutes);

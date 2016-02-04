@@ -1,0 +1,14 @@
+{
+  "name": "hhaamm-cli-utils",
+  "version": "1.0.0",
+  "description": "",
+  "main": "wakeme",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Hugo Alberto Massaroli",
+  "license": "GPL 3",
+  "dependencies": {
+    "sleep": "^3.0.1"
+  }
+}
